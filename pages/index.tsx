@@ -1,6 +1,7 @@
-import useCurrentUser from '@/hooks/useCurrentUser';
+import { getSession } from 'next-auth/react';
 import { NextPageContext } from 'next';
-import { getSession, signOut } from 'next-auth/react';
+import Navbar from '@/components/Navbar';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 import React from 'react';
 
@@ -25,11 +26,7 @@ const Home = () => {
 
   return (
     <>
-      <h1 className="">Streaming App</h1>
-      <p>Logged in as: {user?.email}</p>
-      <button className="w-full h-10 bg-white" onClick={() => signOut()}>
-        Logout
-      </button>
+      <Navbar />
     </>
   );
 };
