@@ -35,7 +35,7 @@ model Account {
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String  @db.String
+  id_token          String? @db.String
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -46,10 +46,10 @@ model Account {
 model Session {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   session_token String   @unique
-  userId        String?  @db.ObjectId
+  userId        String   @db.ObjectId
   expires       DateTime
 
-  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

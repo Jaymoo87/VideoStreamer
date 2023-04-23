@@ -2,15 +2,14 @@ import Input from '@/components/Input';
 import axios from 'axios';
 import React, { useState, useCallback } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
+
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 
 const Auth = () => {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
 
   const [variant, setVariant] = useState('login');
 
@@ -23,29 +22,25 @@ const Auth = () => {
       await signIn('credentials', {
         email,
         password,
-        redirect: false,
-        callbackUrl: '/',
+        callbackUrl: '/Profiles',
       });
-
-      router.push('/');
     } catch (error) {
       console.log(error);
     }
-  }, [email, password, router]);
+  }, [email, password]);
 
   const register = useCallback(async () => {
     try {
       await axios.post('/api/register', {
         email,
-
-        username,
+        name,
         password,
       });
       login();
     } catch (error) {
       console.log(error);
     }
-  }, [email, username, password, login]);
+  }, [email, name, password, login]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/streamingBackground.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -60,10 +55,10 @@ const Auth = () => {
               {variant === 'register' && (
                 <Input
                   label="Username"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
-                  id="username"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                  id="name"
                   type="text"
-                  value={username}
+                  value={name}
                 />
               )}
 
@@ -89,11 +84,14 @@ const Auth = () => {
               {variant === 'login' ? 'Login' : 'Sign Up'}
             </button>
             <div className="flex flex-row items-center justify-center gap-4 mt-8">
-              <div className="flex items-center justify-center w-10 h-10 transition bg-white rounded-full cursor-pointer hover:opacity-80">
+              <div
+                onClick={() => signIn('google', { callbackUrl: '/Profiles' })}
+                className="flex items-center justify-center w-10 h-10 transition bg-white rounded-full cursor-pointer hover:opacity-80"
+              >
                 <FcGoogle size={30} />
               </div>
               <div
-                onClick={() => signIn('github', { callbackUrl: '/' })}
+                onClick={() => signIn('github', { callbackUrl: '/Profiles' })}
                 className="flex items-center justify-center w-10 h-10 transition bg-white rounded-full cursor-pointer hover:opacity-80"
               >
                 <FaGithub size={30} />
