@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { BsFillPlayFill } from 'react-icons/bs';
-import { BiChevronDown } from 'react-icons/bi';
+
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import FavoriteButton from './FavoriteButton';
 import useInfoModal from '@/hooks/useInfoModal';
